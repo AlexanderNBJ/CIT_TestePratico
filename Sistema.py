@@ -13,6 +13,10 @@ class Aplicacao:
 
     def iniciar(self):
         self.interface.exibirTitulo()
+
+        while(self.emExecucao):
+            self.interface.exibirMenuPrincipal()
+
         return
 
 def main():
