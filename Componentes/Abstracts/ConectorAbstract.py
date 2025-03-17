@@ -14,7 +14,7 @@ class ConectorAbstract(ABC):
         pass
     
     @abstractmethod
-    def executarQueryDeInsercao(self, atributos: list[str], tabela: str):
+    def executarQueryDeInsercao(self, atributos: list[str], valores:list[str], tabela: str):
         pass
 
     @abstractmethod

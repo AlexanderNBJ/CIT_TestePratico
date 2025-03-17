@@ -1,6 +1,6 @@
 import psycopg2
 import os
-from Abstracts import ConectorAbstract
+from ..Abstracts.ConectorAbstract import ConectorAbstract
 
 class Conector(ConectorAbstract):
     def __init__(self, dbname, user, password, host, port):
@@ -26,44 +26,48 @@ class Conector(ConectorAbstract):
         return self.cursor.fetchall()
     
     def executarQueryDeAtualizacao(self, atualizar: dict[str, str], tabela: str, condicoes=""):
-        colunas = ""
+        set_clause = ", ".join([f"{coluna} = %s" for coluna in atualizar.keys()])
 
-        for i in range(0, len(atributos)-1):
-            colunas+=atributos[i]+", "
+        valores = list(atualizar.values())
 
-        colunas+= atributos[len(atributos)-1]
+        query = f"UPDATE {tabela} SET {set_clause}"
 
-        self.cursor.execute("SELECT "+colunas+" FROM "+tabela+" "+condicoes)
-        return self.cursor.fetchall()
+        if condicoes:
+            query += f" WHERE {condicoes}"
+        
+        self.cursor.execute(query, valores)
+        return self.cursor.rowcount
     
     def executarQueryDeDelecao(self, tabela: str, condicoes=""):
-        colunas = ""
+        query = "DELETE FROM " + tabela
 
-        for i in range(0, len(atributos)-1):
-            colunas+=atributos[i]+", "
+        if condicoes:
+            query += "WHERE " + condicoes
 
-        colunas+= atributos[len(atributos)-1]
-
-        self.cursor.execute("SELECT "+colunas+" FROM "+tabela+" "+condicoes)
-        return self.cursor.fetchall()
+        self.cursor.execute(query)
+        return self.cursor.rowcount
     
-    def executarQueryDeInsercao(self, atributos: list[str], tabela: str):
-        colunas = ""
+    def executarQueryDeInsercao(self, atributosReais: list[str], colunasDaTabela:list[str], tabela: str):
+        valores = ""
+        for i in range(len(atributosReais)-1):
+            valores+="'"+atributosReais[i]+"', "
 
-        for i in range(0, len(atributos)-1):
-            colunas+=atributos[i]+", "
+        valores+= "'"+atributosReais[len(atributosReais)-1]+"'"
 
-        colunas+= atributos[len(atributos)-1]
-
-        self.cursor.execute("SELECT "+colunas+" FROM "+tabela+" "+condicoes)
-        return self.cursor.fetchall()
+        colunasAInserir = ", ".join(colunasDaTabela)
+        
+        query = f"INSERT INTO {tabela} ({colunasAInserir}) VALUES ({valores})"
+        print(query)
+        self.cursor.execute(query)
+    
+        return self.cursor.rowcount
     
     def executarQueryDeCommit(self):
-        self.cursor.execute("COMMIT")
+        self.connector.commit()
         return
     
     def executarQueryDeRollback(self):
-        self.cursor.execute("ROLLBACK")
+        self.connector.rollback()
         return
     
     def encerrarConexao(self):
