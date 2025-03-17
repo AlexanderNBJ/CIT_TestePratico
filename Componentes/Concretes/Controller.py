@@ -82,9 +82,11 @@ class Controller(ControllerAbstract):
     def inserePontoDeEscavacao(self, arrayValores):
         arrayColunas = ["TIPO_DE_PONTO_ID", 
                         "PESQUISADOR_RESPONSAVEL_ID", 
+                        "SRID",
                         "LATITUDE", 
                         "LONGITUDE", 
                         "ALTITUDE", 
+                        "DATA_CATALOGACAO",
                         "DATA_DE_DESCOBERTA", 
                         "DESCRICAO"]
         
@@ -96,7 +98,7 @@ class Controller(ControllerAbstract):
             self.interface.exibirSucessoInsercao(result)
             self.registrosAdd+=result
         except Exception as e:
-            self.interface.exibirErroDeInsercao()
+            self.interface.exibirErroDeInsercao(e)
             print(e)
     
     def inserePesquisador(self, arrayValores):
@@ -223,9 +225,11 @@ class Controller(ControllerAbstract):
         colunas = ["PONTO_DE_ESCAVACAO.ID AS PONTO_ID",
                     "PONTO_DE_ESCAVACAO.TIPO_DE_PONTO_ID",
                     "PONTO_DE_ESCAVACAO.PESQUISADOR_RESPONSAVEL_ID",
+                    "PONTO_DE_ESCAVACAO.SRID",
                     "PONTO_DE_ESCAVACAO.LATITUDE",
                     "PONTO_DE_ESCAVACAO.LONGITUDE",
                     "PONTO_DE_ESCAVACAO.ALTITUDE",
+                    "TO_CHAR(PONTO_DE_ESCAVACAO.DATA_CATALOGACAO, 'DD-MM-YYYY') AS DATA_CATALOGACAO",
                     "TO_CHAR(PONTO_DE_ESCAVACAO.DATA_DE_DESCOBERTA, 'DD-MM-YYYY') AS DATA_DESCOBERTA",
                     "PONTO_DE_ESCAVACAO.DESCRICAO AS DESCRICAO_PONTO",
                     "TIPO_DE_PONTO.DESCRICAO AS DESCRICAO_TIPO"]
@@ -252,9 +256,11 @@ class Controller(ControllerAbstract):
         colunas = ["PONTO_DE_ESCAVACAO.ID AS PONTO_ID",
                     "PONTO_DE_ESCAVACAO.TIPO_DE_PONTO_ID",
                     "PONTO_DE_ESCAVACAO.PESQUISADOR_RESPONSAVEL_ID",
+                    "PONTO_DE_ESCAVACAO.SRID",
                     "PONTO_DE_ESCAVACAO.LATITUDE",
                     "PONTO_DE_ESCAVACAO.LONGITUDE",
                     "PONTO_DE_ESCAVACAO.ALTITUDE",
+                    "TO_CHAR(PONTO_DE_ESCAVACAO.DATA_CATALOGACAO, 'DD-MM-YYYY') AS DATA_CATALOGACAO",
                     "TO_CHAR(PONTO_DE_ESCAVACAO.DATA_DE_DESCOBERTA, 'DD-MM-YYYY') AS DATA_DESCOBERTA",
                     "PONTO_DE_ESCAVACAO.DESCRICAO AS DESCRICAO_PONTO",
                     "PESQUISADOR.NOME_COMPLETO AS PESQUISADOR_NOME",
@@ -283,9 +289,11 @@ class Controller(ControllerAbstract):
         colunas = [ "PONTO_DE_ESCAVACAO.ID AS PONTO_ID",
                     "PONTO_DE_ESCAVACAO.TIPO_DE_PONTO_ID",
                     "PONTO_DE_ESCAVACAO.PESQUISADOR_RESPONSAVEL_ID",
+                    "PONTO_DE_ESCAVACAO.SRID",
                     "PONTO_DE_ESCAVACAO.LATITUDE",
                     "PONTO_DE_ESCAVACAO.LONGITUDE",
                     "PONTO_DE_ESCAVACAO.ALTITUDE",
+                    "TO_CHAR(PONTO_DE_ESCAVACAO.DATA_CATALOGACAO, 'DD-MM-YYYY') AS DATA_CATALOGACAO",
                     "TO_CHAR(PONTO_DE_ESCAVACAO.DATA_DE_DESCOBERTA, 'YYYY-MM-DD') AS DATA_DESCOBERTA",
                     "PONTO_DE_ESCAVACAO.DESCRICAO AS DESCRICAO_PONTO",
                     "TIPO_DE_PONTO.DESCRICAO AS DESCRICAO_TIPO",
