@@ -10,6 +10,8 @@ class Menu(InterfaceAbstract):
         print("2 - Listar")
         print("3 - Atualizar")
         print("4 - Remover")
+        print("5 - Confirmar alterações")
+        print("6 - Reverter alterações")
         print("0 - Encerrar progama\n")
         print("Digite uma operação...", end=" ")
         return input().strip()
@@ -30,6 +32,9 @@ class Menu(InterfaceAbstract):
         print("1 - Listar Ponto de Escavação")
         print("2 - Listar Pesquisador")
         print("3 - Listar Tipo de Ponto")
+        print("4 - Listar Ponto de Escavação + Tipo de Ponto")
+        print("5 - Listar Ponto de Escavação + Pesquisador")
+        print("6 - Listar Ponto de Escavação + Tipo de Ponto + Pesquisador")
         print("0 - Retornar\n")
         print("Digite uma operação...", end=" ")
         return input().strip()
@@ -104,6 +109,8 @@ class Menu(InterfaceAbstract):
     
     def exibirListagemDePesquisador(self):
         os.system("clear")
+        arrayFiltro = ""
+        arrayOrdem = ""
         if(self.gostariaDeFiltrar()):
             arrayFiltro = self.opcoesFiltragemPesquisadores()
         
@@ -113,12 +120,298 @@ class Menu(InterfaceAbstract):
     
     def exibirListagemDeTipoDePonto(self):
         os.system("clear")
+        arrayFiltro = ""
+        arrayOrdem = ""
         if(self.gostariaDeFiltrar()):
             arrayFiltro = self.opcoesFiltragemTipoDePonto()
         
         if(self.gostariaDeOrdenar()):
             arrayOrdem = self.opcoesOrdenacaoTipoDePonto()
         return arrayFiltro, arrayOrdem
+    
+    def exibirListagemDePontoDeEscavacaoTipoDePonto(self):
+        os.system("clear")
+        arrayFiltro = ""
+        arrayOrdem = ""
+        if self.gostariaDeFiltrar():
+            arrayFiltro = self.opcoesFiltragemPontoTipo()
+        if self.gostariaDeOrdenar():
+            arrayOrdem = self.opcoesOrdenacaoPontoTipo()
+        return arrayFiltro, arrayOrdem
+
+    def exibirListagemDePontoDeEscavacaoPesquisador(self):
+        os.system("clear")
+        arrayFiltro = ""
+        arrayOrdem = ""
+        if self.gostariaDeFiltrar():
+            arrayFiltro = self.opcoesFiltragemPontoPesquisador()
+        if self.gostariaDeOrdenar():
+            arrayOrdem = self.opcoesOrdenacaoPontoPesquisador()
+        return arrayFiltro, arrayOrdem
+
+    def exibirListagemDePontoDeEscavacaoTipoDePontoPesquisador(self):
+        os.system("clear")
+        arrayFiltro = ""
+        arrayOrdem = ""
+        if self.gostariaDeFiltrar():
+            arrayFiltro = self.opcoesFiltragemCompleta()
+        if self.gostariaDeOrdenar():
+            arrayOrdem = self.opcoesOrdenacaoCompleta()
+        return arrayFiltro, arrayOrdem
+
+    def opcoesFiltragemPontoTipo(self):
+        array = []
+        opcao = -1
+        while opcao != 0:
+            os.system("clear")
+            print("Filtros para Ponto + Tipo:")
+            print("1 - ID do Ponto")
+            print("2 - Tipo de Ponto (ID)")
+            print("3 - Latitude")
+            print("4 - Longitude")
+            print("5 - Altitude")
+            print("6 - Data de Descoberta")
+            print("7 - Descrição do Ponto")
+            print("8 - Descrição do Tipo")
+            print("0 - Terminar filtragem")
+            try:
+                opcao = int(input())
+                if opcao == 0:
+                    return array
+                
+                colunas = {
+                    1: "PONTO_DE_ESCAVACAO.ID",
+                    2: "PONTO_DE_ESCAVACAO.TIPO_DE_PONTO_ID",
+                    3: "PONTO_DE_ESCAVACAO.LATITUDE",
+                    4: "PONTO_DE_ESCAVACAO.LONGITUDE",
+                    5: "PONTO_DE_ESCAVACAO.ALTITUDE",
+                    6: "PONTO_DE_ESCAVACAO.DATA_DE_DESCOBERTA",
+                    7: "PONTO_DE_ESCAVACAO.DESCRICAO",
+                    8: "TIPO_DE_PONTO.DESCRICAO"
+                }
+                
+                if opcao in colunas:
+                    print("Operador (=, <, >, <=, >=, LIKE):", end=" ")
+                    operador = input().strip()
+                    print("Valor:", end=" ")
+                    valor = input().strip()
+                    array.append(f"{colunas[opcao]} {operador} '{valor}'")
+                else:
+                    self.exibirErroDeOpcaoInvalida()
+            except:
+                self.exibirErroDeOpcaoInvalida()
+        return array
+
+    def opcoesOrdenacaoPontoTipo(self):
+        array = []
+        opcao = -1
+        while opcao != 0:
+            os.system("clear")
+            print("Ordenação para Ponto + Tipo:")
+            print("1 - ID do Ponto")
+            print("2 - Latitude")
+            print("3 - Longitude")
+            print("4 - Altitude")
+            print("5 - Data de Descoberta")
+            print("6 - Descrição do Tipo")
+            print("0 - Terminar ordenação")
+            try:
+                opcao = int(input())
+                if opcao == 0:
+                    return array
+                
+                colunas = {
+                    1: "PONTO_DE_ESCAVACAO.ID",
+                    2: "PONTO_DE_ESCAVACAO.LATITUDE",
+                    3: "PONTO_DE_ESCAVACAO.LONGITUDE",
+                    4: "PONTO_DE_ESCAVACAO.ALTITUDE",
+                    5: "PONTO_DE_ESCAVACAO.DATA_DE_DESCOBERTA",
+                    6: "TIPO_DE_PONTO.DESCRICAO"
+                }
+                
+                if opcao in colunas:
+                    print("Direção (ASC/DESC):", end=" ")
+                    direcao = input().strip().upper()
+                    array.append(f"{colunas[opcao]} {direcao}")
+                else:
+                    self.exibirErroDeOpcaoInvalida()
+            except:
+                self.exibirErroDeOpcaoInvalida()
+        return array
+
+    def opcoesFiltragemPontoPesquisador(self):
+        array = []
+        opcao = -1
+        while opcao != 0:
+            os.system("clear")
+            print("Filtros para Ponto + Pesquisador:")
+            print("1 - ID do Ponto")
+            print("2 - Pesquisador (ID)")
+            print("3 - Latitude")
+            print("4 - Longitude")
+            print("5 - Altitude")
+            print("6 - Data de Descoberta")
+            print("7 - Descrição do Ponto")
+            print("8 - Nome do Pesquisador")
+            print("9 - Telefone")
+            print("10 - Email")
+            print("11 - Especialidade")
+            print("0 - Terminar filtragem")
+            try:
+                opcao = int(input())
+                if opcao == 0:
+                    return array
+                
+                colunas = {
+                    1: "PONTO_DE_ESCAVACAO.ID",
+                    2: "PONTO_DE_ESCAVACAO.PESQUISADOR_RESPONSAVEL_ID",
+                    3: "PONTO_DE_ESCAVACAO.LATITUDE",
+                    4: "PONTO_DE_ESCAVACAO.LONGITUDE",
+                    5: "PONTO_DE_ESCAVACAO.ALTITUDE",
+                    6: "PONTO_DE_ESCAVACAO.DATA_DE_DESCOBERTA",
+                    7: "PONTO_DE_ESCAVACAO.DESCRICAO",
+                    8: "PESQUISADOR.NOME_COMPLETO",
+                    9: "PESQUISADOR.TELEFONE",
+                    10: "PESQUISADOR.EMAIL",
+                    11: "PESQUISADOR.ESPECIALIDADE"
+                }
+                
+                if opcao in colunas:
+                    print("Operador (=, <, >, <=, >=, LIKE):", end=" ")
+                    operador = input().strip()
+                    print("Valor:", end=" ")
+                    valor = input().strip()
+                    array.append(f"{colunas[opcao]} {operador} '{valor}'")
+                else:
+                    self.exibirErroDeOpcaoInvalida()
+            except:
+                self.exibirErroDeOpcaoInvalida()
+        return array
+
+    def opcoesOrdenacaoPontoPesquisador(self):
+        array = []
+        opcao = -1
+        while opcao != 0:
+            os.system("clear")
+            print("Ordenação para Ponto + Pesquisador:")
+            print("1 - ID do Ponto")
+            print("2 - Altitude")
+            print("3 - Data de Descoberta")
+            print("4 - Nome do Pesquisador")
+            print("5 - Especialidade")
+            print("0 - Terminar ordenação")
+            try:
+                opcao = int(input())
+                if opcao == 0:
+                    return array
+                
+                colunas = {
+                    1: "PONTO_DE_ESCAVACAO.ID",
+                    2: "PONTO_DE_ESCAVACAO.ALTITUDE",
+                    3: "PONTO_DE_ESCAVACAO.DATA_DE_DESCOBERTA",
+                    4: "PESQUISADOR.NOME_COMPLETO",
+                    5: "PESQUISADOR.ESPECIALIDADE"
+                }
+                
+                if opcao in colunas:
+                    print("Direção (ASC/DESC):", end=" ")
+                    direcao = input().strip().upper()
+                    array.append(f"{colunas[opcao]} {direcao}")
+                else:
+                    self.exibirErroDeOpcaoInvalida()
+            except:
+                self.exibirErroDeOpcaoInvalida()
+        return array
+
+    def opcoesFiltragemCompleta(self):
+        array = []
+        opcao = -1
+        while opcao != 0:
+            os.system("clear")
+            print("Filtros para Ponto + Tipo + Pesquisador:")
+            print("1 - ID do Ponto")
+            print("2 - Tipo de Ponto (ID)")
+            print("3 - Pesquisador (ID)")
+            print("4 - Latitude")
+            print("5 - Longitude")
+            print("6 - Altitude")
+            print("7 - Data de Descoberta")
+            print("8 - Descrição do Ponto")
+            print("9 - Descrição do Tipo")
+            print("10 - Nome do Pesquisador")
+            print("11 - Telefone")
+            print("12 - Email")
+            print("13 - Especialidade")
+            print("0 - Terminar filtragem")
+            try:
+                opcao = int(input())
+                if opcao == 0:
+                    return array
+                
+                colunas = {
+                    1: "PONTO_DE_ESCAVACAO.ID",
+                    2: "TIPO_DE_PONTO.ID",
+                    3: "PESQUISADOR.ID",
+                    4: "PONTO_DE_ESCAVACAO.LATITUDE",
+                    5: "PONTO_DE_ESCAVACAO.LONGITUDE",
+                    6: "PONTO_DE_ESCAVACAO.ALTITUDE",
+                    7: "PONTO_DE_ESCAVACAO.DATA_DE_DESCOBERTA",
+                    8: "PONTO_DE_ESCAVACAO.DESCRICAO",
+                    9: "TIPO_DE_PONTO.DESCRICAO",
+                    10: "PESQUISADOR.NOME_COMPLETO",
+                    11: "PESQUISADOR.TELEFONE",
+                    12: "PESQUISADOR.EMAIL",
+                    13: "PESQUISADOR.ESPECIALIDADE"
+                }
+                
+                if opcao in colunas:
+                    print("Operador (=, <, >, <=, >=, LIKE):", end=" ")
+                    operador = input().strip()
+                    print("Valor:", end=" ")
+                    valor = input().strip()
+                    array.append(f"{colunas[opcao]} {operador} '{valor}'")
+                else:
+                    self.exibirErroDeOpcaoInvalida()
+            except:
+                self.exibirErroDeOpcaoInvalida()
+        return array
+
+    def opcoesOrdenacaoCompleta(self):
+        array = []
+        opcao = -1
+        while opcao != 0:
+            os.system("clear")
+            print("Ordenação para Ponto + Tipo + Pesquisador:")
+            print("1 - ID do Ponto")
+            print("2 - Data de Descoberta")
+            print("3 - Altitude")
+            print("4 - Descrição do Tipo")
+            print("5 - Nome do Pesquisador")
+            print("6 - Especialidade")
+            print("0 - Terminar ordenação")
+            try:
+                opcao = int(input())
+                if opcao == 0:
+                    return array
+                
+                colunas = {
+                    1: "PONTO_DE_ESCAVACAO.ID",
+                    2: "PONTO_DE_ESCAVACAO.DATA_DE_DESCOBERTA",
+                    3: "PONTO_DE_ESCAVACAO.ALTITUDE",
+                    4: "TIPO_DE_PONTO.DESCRICAO",
+                    5: "PESQUISADOR.NOME_COMPLETO",
+                    6: "PESQUISADOR.ESPECIALIDADE"
+                }
+                
+                if opcao in colunas:
+                    print("Direção (ASC/DESC):", end=" ")
+                    direcao = input().strip().upper()
+                    array.append(f"{colunas[opcao]} {direcao}")
+                else:
+                    self.exibirErroDeOpcaoInvalida()
+            except:
+                self.exibirErroDeOpcaoInvalida()
+        return array
 
     def exibirAtualizacaoDePontoDeEscavacao(self):
         os.system("clear")
@@ -221,10 +514,17 @@ class Menu(InterfaceAbstract):
         
         for linha in resultado:
             for coluna, nomeDaColuna in zip(linha, nomeColunas):
-                if(nomeDaColuna.upper()!='DESCRICAO'):
-                    print(f"{nomeDaColuna.upper()}: {coluna}")
+                if(nomeDaColuna.upper()!='DESCRICAO' and nomeDaColuna.upper()!='DESCRICAO_PONTO'):
+                    if(str(coluna).upper()!='NONE'):
+                        print(f"{nomeDaColuna.upper()}: {coluna}")
+                    else:
+                        print(f"{nomeDaColuna.upper()}: n/a")
                 else:
-                    print(f"{nomeDaColuna.upper()}:\n{coluna}")
+                    if(str(coluna).upper()!='NONE'):
+                        print(f"{nomeDaColuna.upper()}:\n{coluna}")
+                    else:
+                        print(f"{nomeDaColuna.upper()}:\nn/a")
+                    
             print()    
         print("\nPressione Enter para continuar...", end=" ")
         input()
@@ -263,10 +563,10 @@ class Menu(InterfaceAbstract):
             return False
         
     def opcoesFiltragemPontoDeEscavacao(self):
-        os.system("clear")
         array = []
         opcao = -1
         while opcao !=0:
+            os.system("clear")
             print("Para os pontos de escavação, existem esses critérios:")
             print("1 - ID")
             print("2 - ID do tipo de ponto")
@@ -290,19 +590,19 @@ class Menu(InterfaceAbstract):
 
                 if operador in ["=", "<", ">", "<=", ">="]:
                     if(opcao == 1):
-                        array.append(f"ID {operador} {valor}")
+                        array.append(f"ID {operador} '{valor}'")
                     elif(opcao == 2):
-                        array.append(f"TIPO_DE_PONTO_ID {operador} {valor}")
+                        array.append(f"TIPO_DE_PONTO_ID {operador} '{valor}'")
                     elif(opcao == 3):
-                        array.append(f"PESQUISADOR_RESPONSAVEL_ID {operador} {valor}")
+                        array.append(f"PESQUISADOR_RESPONSAVEL_ID {operador} '{valor}'")
                     elif(opcao == 4):
-                        array.append(f"LATITUDE {operador} {valor}")
+                        array.append(f"LATITUDE {operador} '{valor}'")
                     elif(opcao == 5):
-                        array.append(f"LONGITUDE {operador} {valor}")
+                        array.append(f"LONGITUDE {operador} '{valor}'")
                     elif(opcao == 6):
-                        array.append(f"ALTITUDE {operador} {valor}")
+                        array.append(f"ALTITUDE {operador} '{valor}'")
                     elif(opcao == 7):
-                        array.append(f"DATA_DE_DESCOBERTA {operador} {valor}")
+                        array.append(f"DATA_DE_DESCOBERTA {operador} '{valor}'")
                     else:
                         self.exibirErroDeOpcaoInvalida()
                 else:
@@ -314,11 +614,11 @@ class Menu(InterfaceAbstract):
         return array
     
     def opcoesOrdenacaoPontosDeEscavacao(self):
-        os.system("clear")
         array = []
         opcao = -1
 
         while opcao !=0:
+            os.system("clear")
             print("Para os pontos de escavação, existem esses critérios:")
             print("1 - ID")
             print("2 - ID do tipo de ponto")
@@ -362,10 +662,10 @@ class Menu(InterfaceAbstract):
         return array
     
     def opcoesFiltragemPesquisadores(self):
-        os.system("clear")
         array = []
         opcao = -1
         while opcao !=0:
+            os.system("clear")
             print("Para os pesquisadores, existem esses critérios:")
             print("1 - ID ")
             print("2 - Nome Completo")
@@ -387,15 +687,15 @@ class Menu(InterfaceAbstract):
 
                 if operador in ["=", "<", ">", "<=", ">="]:
                     if(opcao == 1):
-                        array.append(f"ID {operador} {valor}")
+                        array.append(f"ID {operador} '{valor}'")
                     elif(opcao == 2):
-                        array.append(f"NOME_COMPLETO {operador} {valor}")
+                        array.append(f"NOME_COMPLETO {operador} '{valor}'")
                     elif(opcao == 3):
-                        array.append(f"TELEFONE {operador} {valor}")
+                        array.append(f"TELEFONE {operador} '{valor}'")
                     elif(opcao == 4):
-                        array.append(f"EMAIL {operador} {valor}")
+                        array.append(f"EMAIL {operador} '{valor}'")
                     elif(opcao == 5):
-                        array.append(f"ESPECIALIDADE {operador} {valor}")
+                        array.append(f"ESPECIALIDADE {operador} '{valor}'")
                     else:
                         self.exibirErroDeOpcaoInvalida()
                 else:
@@ -407,10 +707,10 @@ class Menu(InterfaceAbstract):
         return array
 
     def opcoesOrdenacaoPesquisadores(self):
-        os.system("clear")
         array = []
         opcao = -1
         while opcao !=0:
+            os.system("clear")
             print("Para os pesquisadores, existem esses critérios:")
             print("1 - ID ")
             print("2 - Nome Completo")
@@ -449,10 +749,10 @@ class Menu(InterfaceAbstract):
         return array
     
     def opcoesFiltragemTipoDePonto(self):
-        os.system("clear")
         array = []
         opcao = -1
         while opcao !=0:
+            os.system("clear")
             print("Para os tipos de pontos, existem esses critérios:")
             print("1 - ID ")
             print("2 - Descrição")
@@ -471,9 +771,9 @@ class Menu(InterfaceAbstract):
 
                 if operador in ["=", "<", ">", "<=", ">="]:
                     if(opcao == 1):
-                        array.append(f"ID {operador} {valor}")
+                        array.append(f"ID {operador} '{valor}'")
                     elif(opcao == 2):
-                        array.append(f"DESCRICAO {operador} {valor}")
+                        array.append(f"DESCRICAO {operador} '{valor}'")
                     else:
                         self.exibirErroDeOpcaoInvalida()
                 else:
@@ -485,10 +785,10 @@ class Menu(InterfaceAbstract):
         return array
 
     def opcoesOrdenacaoTipoDePonto(self):
-        os.system("clear")
         array = []
         opcao = -1
         while opcao !=0:
+            os.system("clear")
             print("Para os tipos de pontos, existem esses critérios:")
             print("1 - ID ")
             print("2 - Descricao")
@@ -547,18 +847,34 @@ class Menu(InterfaceAbstract):
 
     def exibirSucessoInsercao(self, numero: int):
         os.system("clear")
-        print(f"{numero} registros cadastrados com sucesso!")
+        print(f"{numero} registros cadastrados com sucesso!\nConfirme a mudança no Menu Principal.")
         print("\nPressione Enter para continuar...", end=" ")
         input()
 
     def exibirSucessoAtualizacao(self, numero: int):
         os.system("clear")
-        print(f"{numero} registros atualizados com sucesso!")
+        print(f"{numero} registros atualizados com sucesso!\nConfirme a mudança no Menu Principal.")
         print("\nPressione Enter para continuar...", end=" ")
         input()
     
     def exibirSucessoExclusao(self, numero: int):
         os.system("clear")
-        print(f"{numero} registros excluídos com sucesso!")
+        print(f"{numero} registros excluídos com sucesso!\nConfirme a mudança no Menu Principal.")
+        print("\nPressione Enter para continuar...", end=" ")
+        input()
+    
+    def exibirMensagemCommit(self, adds: int, alts: int, excls: int):
+        os.system("clear")
+        print(f"{adds} registros adicionados com sucesso!")
+        print(f"{alts} registros alterados com sucesso!")
+        print(f"{excls} registros excluídos com sucesso!")
+        print("\nPressione Enter para continuar...", end=" ")
+        input()
+    
+    def exibirMensagemRollback(self, adds: int, alts: int, excls: int):
+        os.system("clear")
+        print(f"{adds} novos registros revertidos com sucesso!")
+        print(f"{alts} registros alterados revertidos com sucesso!")
+        print(f"{excls} registros excluídos  revertidos com sucesso!")
         print("\nPressione Enter para continuar...", end=" ")
         input()

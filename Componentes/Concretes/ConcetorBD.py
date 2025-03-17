@@ -44,7 +44,7 @@ class Conector(ConectorAbstract):
         query = "DELETE FROM " + tabela
 
         if condicoes:
-            query += "WHERE " + condicoes
+            query += " WHERE " + condicoes
 
         self.cursor.execute(query)
         return self.cursor.rowcount

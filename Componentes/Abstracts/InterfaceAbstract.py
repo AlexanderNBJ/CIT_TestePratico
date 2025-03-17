@@ -46,6 +46,18 @@ class InterfaceAbstract(ABC):
         pass
 
     @abstractmethod
+    def exibirListagemDePontoDeEscavacaoTipoDePonto(self):
+        pass
+    
+    @abstractmethod
+    def exibirListagemDePontoDeEscavacaoPesquisador(self):
+        pass
+
+    @abstractmethod
+    def exibirListagemDePontoDeEscavacaoTipoDePontoPesquisador(self):
+        pass
+
+    @abstractmethod
     def exibirAtualizacaoDePontoDeEscavacao(self):
         pass
 
@@ -109,4 +121,11 @@ class InterfaceAbstract(ABC):
     def exibirSucessoExclusao(self, numero: int):
         pass
 
+    @abstractmethod
+    def exibirMensagemCommit(self, adds: int, alts: int, excls: int):
+        pass
+    
+    @abstractmethod
+    def exibirMensagemRollback(self, adds: int, alts: int, excls: int):
+        pass
 
