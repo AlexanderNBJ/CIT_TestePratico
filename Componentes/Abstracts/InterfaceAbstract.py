@@ -78,23 +78,23 @@ class InterfaceAbstract(ABC):
         pass
 
     @abstractmethod
-    def exibirErroDeInsercao(self):
+    def exibirErroDeInsercao(self, e: Exception):
         pass
 
     @abstractmethod
-    def exibirErroDeAlteracao(self):
+    def exibirErroDeAlteracao(self, e: Exception):
         pass
 
     @abstractmethod
-    def exibirErroDeExclusao(self):
+    def exibirErroDeExclusao(self, e: Exception):
         pass
 
     @abstractmethod
-    def exibirErroDeListagem(self):
+    def exibirErroDeListagem(self, e: Exception):
         pass
 
     @abstractmethod
-    def exibirResultado(self):
+    def exibirResultado(self, resultado):
         pass
 
     @abstractmethod

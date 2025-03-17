@@ -11,6 +11,8 @@ class Conector(ConectorAbstract):
             print("A database não existe ainda. Será executado um script de criação:")
             os.system("cd ../..")
             os.system("sudo -u postgres psql < Setup/setup.sql")
+            self.connector = psycopg2.connect(dbname=dbname,user=user,password=password,host=host,port=port)
+            self.cursor = self.connector.cursor()
         except Exception as e:
             self.connector = self.cursor = None
 
@@ -48,16 +50,23 @@ class Conector(ConectorAbstract):
         return self.cursor.rowcount
     
     def executarQueryDeInsercao(self, atributosReais: list[str], colunasDaTabela:list[str], tabela: str):
-        valores = ""
-        for i in range(len(atributosReais)-1):
-            valores+="'"+atributosReais[i]+"', "
-
-        valores+= "'"+atributosReais[len(atributosReais)-1]+"'"
+        if not(isinstance(atributosReais, str)):
+            valor = []
+            for atributo in atributosReais:
+                atributo = atributo.strip()
+                if atributo == '':
+                    valor.append("NULL")
+                else:
+                    valor.append(f"'{atributo}'")
+            valorReal = " ,".join(valor)
+        else:
+            if atributosReais.strip() == '':
+                valorReal = "NULL"
+            else:
+                valorReal = "'"+atributosReais+"'"
 
         colunasAInserir = ", ".join(colunasDaTabela)
-        
-        query = f"INSERT INTO {tabela} ({colunasAInserir}) VALUES ({valores})"
-        print(query)
+        query = f"INSERT INTO {tabela} ({colunasAInserir}) VALUES ({valorReal})"
         self.cursor.execute(query)
     
         return self.cursor.rowcount
@@ -74,3 +83,7 @@ class Conector(ConectorAbstract):
         self.connector.close()
         self.cursor.close()
         return
+    
+    def obterNomesDasColunas(self):
+        nomesColunas = [coluna.name for coluna in self.cursor.description]
+        return nomesColunas

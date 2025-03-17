@@ -22,15 +22,15 @@ class Controller(ControllerAbstract):
                 opcao = self.interface.exibirMenuCadastro()
                 self.avaliaOpcaoCadastro(opcao)
             elif(opcao == 2):
-                self.interface.exibirMenuListar()
-                #avaliar a listagem aqui
+                opcao = self.interface.exibirMenuListar()
+                self.avaliaOpcaoListar(opcao)
             elif(opcao == 3):
                 self.interface.exibirMenuAtualizar()
                 #avaliar a atualização de registros aqui
             elif(opcao == 4):
                 self.interface.exibirMenuRemover()
                 #avaliar a remoção de registros aqui
-            elif(opcao == 5):
+            elif(opcao == 0):
                 self.conector.executarQueryDeCommit()
                 self.emExecucao = False
                 return
@@ -49,14 +49,15 @@ class Controller(ControllerAbstract):
                 array = self.interface.exibirCadastroDePontoDeEscavacao()
                 self.inserePontoDeEscavacao(array)
             elif(opcao == 2):
-                pass
+                array = self.interface.exibirCadastroDePesquisador()
+                self.inserePesquisador(array)
             elif(opcao == 3):
-                pass
-            elif(opcao == 4):
+                array = self.interface.exibirCadastroDeTipoDePonto()
+                self.insereTipoDePonto(array)
+            elif(opcao == 0):
                 return
             else:
                 self.interface.exibirErroDeOpcaoInvalida()
-                print("Ué")
         except Exception as e:
             self.interface.exibirErroDeOpcaoInvalida()
             
@@ -80,3 +81,66 @@ class Controller(ControllerAbstract):
         except Exception as e:
             self.interface.exibirErroDeInsercao()
             print(e)
+    
+    def inserePesquisador(self, arrayValores):
+        arrayColunas = ["NOME_COMPLETO", "TELEFONE", "EMAIL", "ESPECIALIDADE"]
+        
+        for atributo in arrayValores:
+            if atributo == "":
+                atributo = "NULL"
+        try:
+            result = self.conector.executarQueryDeInsercao(arrayValores, arrayColunas, "PESQUISADOR")
+            self.interface.exibirSucessoInsercao(result)
+        except Exception as e:
+            self.interface.exibirErroDeInsercao(e)
+    
+    def insereTipoDePonto(self, arrayValores):
+        arrayColunas = ["DESCRICAO"]
+        
+        for atributo in arrayValores:
+            if atributo == "":
+                atributo = "NULL"
+        try:
+            result = self.conector.executarQueryDeInsercao(arrayValores, arrayColunas, "TIPO_DE_PONTO")
+            self.interface.exibirSucessoInsercao(result)
+        except Exception as e:
+            self.interface.exibirErroDeInsercao(e)
+    
+    def avaliaOpcaoListar(self, opcao):
+        try:
+            opcao = int(opcao)
+            if(opcao == 1):
+                arrayFiltro, arrayOrdem = self.interface.exibirListagemDePontoDeEscavacao()
+                resultado = self.buscaPontoDeEscavacao(arrayFiltro, arrayOrdem)
+                if resultado != None:
+                    nomesColunas = self.conector.obterNomesDasColunas()
+                    self.interface.exibirResultado(resultado, nomesColunas)
+            elif(opcao == 2):
+                #listar pesquisadores
+                pass
+            elif(opcao == 3):
+                #listar tipos de ponto
+                pass
+            elif(opcao == 0):
+                return
+            else:
+                self.interface.exibirErroDeOpcaoInvalida()
+                return
+        except Exception as e:
+            self.interface.exibirErroDeOpcaoInvalida(e)
+            
+        return
+
+    def buscaPontoDeEscavacao(self, arrayFiltro, arrayOrdem):
+        condicao = ""
+        if(arrayFiltro):
+            condicao = "WHERE "+" AND ".join(arrayFiltro)
+        if(arrayOrdem):
+            condicao += " ORDER BY " +", ".join(arrayOrdem)
+        try:
+            resultado = self.conector.executarQueryDeSelecao(['*'],'PONTO_DE_ESCAVACAO', condicao)
+            return resultado
+        except Exception as e:
+            self.interface.exibirErroDeListagem(e)
+            return None
+        

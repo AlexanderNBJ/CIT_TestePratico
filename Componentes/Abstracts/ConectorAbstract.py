@@ -28,3 +28,7 @@ class ConectorAbstract(ABC):
     @abstractmethod
     def encerrarConexao(self):
         pass
+
+    @abstractmethod
+    def obterNomesDasColunas(self):
+        pass

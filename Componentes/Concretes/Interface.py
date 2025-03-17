@@ -10,7 +10,7 @@ class Menu(InterfaceAbstract):
         print("2 - Listar")
         print("3 - Atualizar")
         print("4 - Remover")
-        print("5 - Encerrar progama\n")
+        print("0 - Encerrar progama\n")
         print("Digite uma operação...", end=" ")
         return input().strip()
 
@@ -20,7 +20,7 @@ class Menu(InterfaceAbstract):
         print("1 - Cadastrar Ponto de Escavação")
         print("2 - Cadastrar Pesquisador")
         print("3 - Cadastrar Tipo de Ponto")
-        print("4 - Retornar\n")
+        print("0 - Retornar\n")
         print("Digite uma operação...", end=" ")
         return input().strip()
     
@@ -30,7 +30,7 @@ class Menu(InterfaceAbstract):
         print("1 - Listar Ponto de Escavação")
         print("2 - Listar Pesquisador")
         print("3 - Listar Tipo de Ponto")
-        print("4 - Retornar\n")
+        print("0 - Retornar\n")
         print("Digite uma operação...", end=" ")
         return input().strip()
     
@@ -40,7 +40,7 @@ class Menu(InterfaceAbstract):
         print("1 - Atualizar Ponto de Escavação")
         print("2 - Atualizar Pesquisador")
         print("3 - Atualizar Tipo de Ponto")
-        print("4 - Retornar\n")
+        print("0 - Retornar\n")
         print("Digite uma operação...", end=" ")
         return input().strip()
     
@@ -50,7 +50,7 @@ class Menu(InterfaceAbstract):
         print("1 - Excluir Ponto de Escavação")
         print("2 - Excluir Pesquisador")
         print("3 - Excluir Tipo de Ponto")
-        print("4 - Retornar\n")
+        print("0 - Retornar\n")
         print("Digite uma operação...", end=" ")
         return input().strip()
     
@@ -93,11 +93,13 @@ class Menu(InterfaceAbstract):
     
     def exibirListagemDePontoDeEscavacao(self):
         os.system("clear")
+        arrayFiltro = ""
+        arrayOrdem = ""
         if(self.gostariaDeFiltrar()):
             arrayFiltro = self.opcoesFiltragemPontoDeEscavacao()
-
         if(self.gostariaDeOrdenar()):
             arrayOrdem = self.opcoesOrdenacaoPontosDeEscavacao()
+        
         return arrayFiltro, arrayOrdem
     
     def exibirListagemDePesquisador(self):
@@ -213,14 +215,17 @@ class Menu(InterfaceAbstract):
         print("Digite o ID do tipo de ponto que deseja excluir:", end=" ")
         return input().strip()
 
-    def exibirResultado(self, resultado):
+    def exibirResultado(self, resultado, nomeColunas):
         os.system("clear")
-        print("\nResultado da operação:")
-        if isinstance(resultado, list):
-            for item in resultado:
-                print(item)
-        else:
-            print(resultado)
+        print("Resultado da operação:\n")
+        
+        for linha in resultado:
+            for coluna, nomeDaColuna in zip(linha, nomeColunas):
+                if(nomeDaColuna.upper()!='DESCRICAO'):
+                    print(f"{nomeDaColuna.upper()}: {coluna}")
+                else:
+                    print(f"{nomeDaColuna.upper()}:\n{coluna}")
+            print()    
         print("\nPressione Enter para continuar...", end=" ")
         input()
     
@@ -228,9 +233,12 @@ class Menu(InterfaceAbstract):
         print("\t\t\tSistema de Catálogo de Pontos de Escavação\n")
         return
     
-    def exibirErroDeOpcaoInvalida(self):
+    def exibirErroDeOpcaoInvalida(self, e: Exception):
         os.system("clear")
         print("Por favor, escolha uma opção válida.")
+        print(e)
+        print("\nPressione Enter para continuar...", end=" ")
+        input()
         return
     
     
@@ -509,21 +517,33 @@ class Menu(InterfaceAbstract):
 
         return array
     
-    def exibirErroDeInsercao(self):
+    def exibirErroDeInsercao(self, e: Exception):
         os.system("clear")
-        print("Erro ao inserir registro!")
+        print("Falha na inserção de registro: ")
+        print(e)
+        print("\nPressione Enter para continuar...", end=" ")
+        input()
     
-    def exibirErroDeAlteracao(self):
+    def exibirErroDeAlteracao(self, e: Exception):
         os.system("clear")
-        print("Erro ao atualizar registro!")
+        print("Falha na atualização de registro!")
+        print(e)
+        print("\nPressione Enter para continuar...", end=" ")
+        input()
     
-    def exibirErroDeExclusao(self):
+    def exibirErroDeExclusao(self, e: Exception):
         os.system("clear")
-        print("Erro ao excluir registro!")
+        print("Falha na exclusão de registro!")
+        print(e)
+        print("\nPressione Enter para continuar...", end=" ")
+        input()
     
-    def exibirErroDeListagem(self):
+    def exibirErroDeListagem(self, e: Exception):
         os.system("clear")
         print("Erro ao listar registros!")
+        print(e)
+        print("\nPressione Enter para continuar...", end=" ")
+        input()
 
     def exibirSucessoInsercao(self, numero: int):
         os.system("clear")
