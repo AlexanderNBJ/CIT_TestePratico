@@ -168,7 +168,7 @@ class Menu(InterfaceAbstract):
         opcao = -1
         while opcao != 0:
             os.system("clear")
-            print("Filtros para Ponto + Tipo:")
+            print("Filtrar por:")
             print("1 - ID do Ponto")
             print("2 - Tipo de Ponto (ID)")
             print("3 - Latitude")
@@ -212,7 +212,7 @@ class Menu(InterfaceAbstract):
         opcao = -1
         while opcao != 0:
             os.system("clear")
-            print("Ordenação para Ponto + Tipo:")
+            print("Ordenar por:")
             print("1 - ID do Ponto")
             print("2 - SRID")
             print("3 - Latitude")
@@ -242,7 +242,8 @@ class Menu(InterfaceAbstract):
                     print("Caso queira ordenação crescente, coloque ASC")
                     print("Caso queira ordenação decrescente, coloque DESC")
                     direcao = input().strip().upper()
-                    array.append(f"{colunas[opcao]} {direcao}")
+                    if direcao in ["ASC", "DESC"]:
+                        array.append(f"{colunas[opcao]} {direcao}")
                 else:
                     self.exibirErroDeOpcaoInvalida()
             except:
@@ -254,7 +255,7 @@ class Menu(InterfaceAbstract):
         opcao = -1
         while opcao != 0:
             os.system("clear")
-            print("Filtros para Ponto + Pesquisador:")
+            print("Filtrar por:")
             print("1 - ID do Ponto")
             print("2 - Pesquisador (ID)")
             print("3 - SRID")
@@ -308,7 +309,7 @@ class Menu(InterfaceAbstract):
         opcao = -1
         while opcao != 0:
             os.system("clear")
-            print("Ordenação para Ponto + Pesquisador:")
+            print("Ordenar por:")
             print("1 - ID do Ponto")
             print("2 - Pesquisador (ID)")
             print("3 - SRID")
@@ -322,7 +323,7 @@ class Menu(InterfaceAbstract):
             print("11 - Telefone")
             print("12 - Email")
             print("13 - Especialidade")
-            print("0 - Terminar filtragem")
+            print("0 - Terminar Ordenação")
             try:
                 opcao = int(input())
                 if opcao == 0:
@@ -348,7 +349,8 @@ class Menu(InterfaceAbstract):
                     print("Caso queira ordenação crescente, coloque ASC")
                     print("Caso queira ordenação decrescente, coloque DESC")
                     direcao = input().strip().upper()
-                    array.append(f"{colunas[opcao]} {direcao}")
+                    if direcao in ["ASC", "DESC"]:
+                        array.append(f"{colunas[opcao]} {direcao}")
                 else:
                     self.exibirErroDeOpcaoInvalida()
             except:
@@ -360,7 +362,7 @@ class Menu(InterfaceAbstract):
         opcao = -1
         while opcao != 0:
             os.system("clear")
-            print("Filtros para Ponto + Tipo + Pesquisador:")
+            print("Filtrar por:")
             print("1 - ID do Ponto")
             print("2 - Tipo de Ponto (ID)")
             print("3 - Pesquisador (ID)")
@@ -418,7 +420,7 @@ class Menu(InterfaceAbstract):
         opcao = -1
         while opcao != 0:
             os.system("clear")
-            print("Ordenação para Ponto + Tipo + Pesquisador:")
+            print("Ordenar por:")
             print("1 - ID do Ponto")
             print("2 - Tipo de Ponto (ID)")
             print("3 - Pesquisador (ID)")
@@ -432,7 +434,7 @@ class Menu(InterfaceAbstract):
             print("11 - Telefone")
             print("12 - Email")
             print("13 - Especialidade")
-            print("0 - Terminar filtragem")
+            print("0 - Terminar ordenação")
             try:
                 opcao = int(input())
                 if opcao == 0:
@@ -458,7 +460,8 @@ class Menu(InterfaceAbstract):
                     print("Caso queira ordenação crescente, coloque ASC")
                     print("Caso queira ordenação decrescente, coloque DESC")
                     direcao = input().strip().upper()
-                    array.append(f"{colunas[opcao]} {direcao}")
+                    if direcao in ["ASC", "DESC"]:
+                        array.append(f"{colunas[opcao]} {direcao}")
                 else:
                     self.exibirErroDeOpcaoInvalida()
             except:
@@ -626,7 +629,7 @@ class Menu(InterfaceAbstract):
         opcao = -1
         while opcao !=0:
             os.system("clear")
-            print("Para os pontos de escavação, existem esses critérios:")
+            print("Filtrar por:")
             print("1 - ID do tipo de ponto")
             print("2 - ID do pesquisador")
             print("3 - SRID ")
@@ -681,7 +684,7 @@ class Menu(InterfaceAbstract):
 
         while opcao !=0:
             os.system("clear")
-            print("Para os pontos de escavação, existem esses critérios:")
+            print("Ordenar por:")
             print("1 - ID do tipo de ponto")
             print("2 - ID do pesquisador")
             print("3 - SRID ")
@@ -690,7 +693,7 @@ class Menu(InterfaceAbstract):
             print("6 - Altitude")
             print("7 - Data de catalogação")
             print("8 - Data de descoberta")
-            print("0 - Terminar a filtragem")
+            print("0 - Terminar a ordenação")
             try:
                 opcao = int(input())
                 if(opcao ==0):
@@ -731,7 +734,7 @@ class Menu(InterfaceAbstract):
         opcao = -1
         while opcao !=0:
             os.system("clear")
-            print("Para os pesquisadores, existem esses critérios:")
+            print("Filtrar por:")
             print("1 - Nome Completo")
             print("2 - Telefone")
             print("3 - Email")
@@ -773,12 +776,12 @@ class Menu(InterfaceAbstract):
         opcao = -1
         while opcao !=0:
             os.system("clear")
-            print("Para os pesquisadores, existem esses critérios:")
+            print("Ordenar por:")
             print("1 - Nome Completo")
             print("2 - Telefone")
             print("3 - Email")
             print("4 - Especialidade")
-            print("0 - Terminar a filtragem")
+            print("0 - Terminar a ordenação")
             
             try:
                 opcao = int(input())
@@ -812,7 +815,7 @@ class Menu(InterfaceAbstract):
         opcao = -1
         while opcao !=0:
             os.system("clear")
-            print("Para os tipos de pontos, existem esses critérios:")
+            print("Filtrar por:")
             print("1 - ID ")
             print("2 - Descrição")
             print("0 - Terminar a filtragem")
@@ -848,7 +851,7 @@ class Menu(InterfaceAbstract):
         opcao = -1
         while opcao !=0:
             os.system("clear")
-            print("Para os tipos de pontos, existem esses critérios:")
+            print("Ordenar por:")
             print("1 - ID ")
             print("2 - Descricao")
             print("0 - Terminar a ordenação")
