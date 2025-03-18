@@ -90,19 +90,19 @@ class InterfaceAbstract(ABC):
         pass
 
     @abstractmethod
-    def exibirErroDeInsercao(self, e: Exception):
+    def exibirErroDeInsercao(self):
         pass
 
     @abstractmethod
-    def exibirErroDeAlteracao(self, e: Exception):
+    def exibirErroDeAlteracao(self):
         pass
 
     @abstractmethod
-    def exibirErroDeExclusao(self, e: Exception):
+    def exibirErroDeExclusao(self):
         pass
 
     @abstractmethod
-    def exibirErroDeListagem(self, e: Exception):
+    def exibirErroDeListagem(self):
         pass
 
     @abstractmethod
@@ -127,5 +127,9 @@ class InterfaceAbstract(ABC):
     
     @abstractmethod
     def exibirMensagemRollback(self, adds: int, alts: int, excls: int):
+        pass
+
+    @abstractmethod
+    def encerrarInterface(self):
         pass
 

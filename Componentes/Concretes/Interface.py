@@ -68,9 +68,9 @@ class Menu(InterfaceAbstract):
         array.append(input().strip())
         print("Digite o SRID:", end=" ")
         array.append(input().strip())
-        print("Digite a latitude do ponto:", end=" ")
+        print("Digite a latitude do ponto (-90 <= valor <= 90):", end=" ")
         array.append(input().strip())
-        print("Digite a longitude do ponto:", end=" ")
+        print("Digite a longitude do ponto: (-180 <= valor <= 180)", end=" ")
         array.append(input().strip())
         print("Digite a altitude do ponto:", end=" ")
         array.append(input().strip())
@@ -195,11 +195,12 @@ class Menu(InterfaceAbstract):
                 }
                 
                 if opcao in colunas:
-                    print("Operador (=, <, >, <=, >=, LIKE):", end=" ")
-                    operador = input().strip()
+                    print("Operador (=, <, >, <=, >=:", end=" ")
+                    operador = input().strip().upper()
                     print("Valor:", end=" ")
-                    valor = input().strip()
-                    array.append(f"{colunas[opcao]} {operador} '{valor}'")
+                    valor = input().strip().upper()
+                    if operador in ["=", "<", ">", "<=", ">="]:
+                        array.append(f"{colunas[opcao]} {operador} '{valor}'")
                 else:
                     self.exibirErroDeOpcaoInvalida()
             except:
@@ -238,7 +239,8 @@ class Menu(InterfaceAbstract):
                 }
                 
                 if opcao in colunas:
-                    print("Direção (ASC/DESC):", end=" ")
+                    print("Caso queira ordenação crescente, coloque ASC")
+                    print("Caso queira ordenação decrescente, coloque DESC")
                     direcao = input().strip().upper()
                     array.append(f"{colunas[opcao]} {direcao}")
                 else:
@@ -289,11 +291,12 @@ class Menu(InterfaceAbstract):
                 }
                 
                 if opcao in colunas:
-                    print("Operador (=, <, >, <=, >=, LIKE):", end=" ")
-                    operador = input().strip()
+                    print("Operador (=, <, >, <=, >=):", end=" ")
+                    operador = input().strip().upper()
                     print("Valor:", end=" ")
-                    valor = input().strip()
-                    array.append(f"{colunas[opcao]} {operador} '{valor}'")
+                    valor = input().strip().upper()
+                    if operador in ["=", "<", ">", "<=", ">="]:
+                        array.append(f"{colunas[opcao]} {operador} '{valor}'")
                 else:
                     self.exibirErroDeOpcaoInvalida()
             except:
@@ -342,7 +345,8 @@ class Menu(InterfaceAbstract):
                 }
                 
                 if opcao in colunas:
-                    print("Direção (ASC/DESC):", end=" ")
+                    print("Caso queira ordenação crescente, coloque ASC")
+                    print("Caso queira ordenação decrescente, coloque DESC")
                     direcao = input().strip().upper()
                     array.append(f"{colunas[opcao]} {direcao}")
                 else:
@@ -397,11 +401,12 @@ class Menu(InterfaceAbstract):
                 }
                 
                 if opcao in colunas:
-                    print("Operador (=, <, >, <=, >=, LIKE):", end=" ")
-                    operador = input().strip()
+                    print("Operador (=, <, >, <=, >=):", end=" ")
+                    operador = input().strip().upper()
                     print("Valor:", end=" ")
-                    valor = input().strip()
-                    array.append(f"{colunas[opcao]} {operador} '{valor}'")
+                    valor = input().strip().upper()
+                    if operador in ["=", "<", ">", "<=", ">="]:
+                        array.append(f"{colunas[opcao]} {operador} '{valor}'")
                 else:
                     self.exibirErroDeOpcaoInvalida()
             except:
@@ -450,7 +455,8 @@ class Menu(InterfaceAbstract):
                 }
                 
                 if opcao in colunas:
-                    print("Direção (ASC/DESC):", end=" ")
+                    print("Caso queira ordenação crescente, coloque ASC")
+                    print("Caso queira ordenação decrescente, coloque DESC")
                     direcao = input().strip().upper()
                     array.append(f"{colunas[opcao]} {direcao}")
                 else:
@@ -587,10 +593,9 @@ class Menu(InterfaceAbstract):
         print("\t\t\tSistema de Catálogo de Pontos de Escavação\n")
         return
     
-    def exibirErroDeOpcaoInvalida(self, e: Exception):
+    def exibirErroDeOpcaoInvalida(self):
         os.system("clear")
         print("Por favor, escolha uma opção válida.")
-        print(e)
         print("\nPressione Enter para continuar...", end=" ")
         input()
         return
@@ -739,10 +744,10 @@ class Menu(InterfaceAbstract):
                     return array
                 
                 print("Operador (=, <, <=, >, >=):", end=" ")
-                operador = input().strip()
+                operador = input().strip().upper()
 
                 print("Valor:", end=" ")
-                valor = input().strip()
+                valor = input().strip().upper()
 
                 if operador in ["=", "<", ">", "<=", ">="]:
                     if(opcao == 1):
@@ -818,10 +823,10 @@ class Menu(InterfaceAbstract):
                     return array
                 
                 print("Operador (=, <, <=, >, >=):", end=" ")
-                operador = input().strip()
+                operador = input().strip().upper()
 
                 print("Valor:", end=" ")
-                valor = input().strip()
+                valor = input().strip().upper()
 
                 if operador in ["=", "<", ">", "<=", ">="]:
                     if(opcao == 1):
@@ -871,51 +876,54 @@ class Menu(InterfaceAbstract):
 
         return array
     
-    def exibirErroDeInsercao(self, e: Exception):
+    def exibirErroDeInsercao(self):
         os.system("clear")
-        print("Falha na inserção de registro: ")
-        print(e)
+        print("Falha na inserção de registro. ")
         print("\nPressione Enter para continuar...", end=" ")
         input()
+        return
     
-    def exibirErroDeAlteracao(self, e: Exception):
+    def exibirErroDeAlteracao(self):
         os.system("clear")
-        print("Falha na atualização de registro!")
-        print(e)
+        print("Falha na atualização de registro.")
         print("\nPressione Enter para continuar...", end=" ")
         input()
+        return
     
-    def exibirErroDeExclusao(self, e: Exception):
+    def exibirErroDeExclusao(self):
         os.system("clear")
-        print("Falha na exclusão de registro!")
-        print(e)
+        print("Falha na exclusão de registro.")
         print("\nPressione Enter para continuar...", end=" ")
         input()
+        return
     
-    def exibirErroDeListagem(self, e: Exception):
+    def exibirErroDeListagem(self):
         os.system("clear")
-        print("Erro ao listar registros!")
-        print(e)
+        print("Erro ao listar registros.")
         print("\nPressione Enter para continuar...", end=" ")
         input()
+        return
 
     def exibirSucessoInsercao(self, numero: int):
         os.system("clear")
         print(f"{numero} registros cadastrados com sucesso!\nConfirme a mudança no Menu Principal.")
         print("\nPressione Enter para continuar...", end=" ")
         input()
+        return
 
     def exibirSucessoAtualizacao(self, numero: int):
         os.system("clear")
         print(f"{numero} registros atualizados com sucesso!\nConfirme a mudança no Menu Principal.")
         print("\nPressione Enter para continuar...", end=" ")
         input()
+        return
     
     def exibirSucessoExclusao(self, numero: int):
         os.system("clear")
         print(f"{numero} registros excluídos com sucesso!\nConfirme a mudança no Menu Principal.")
         print("\nPressione Enter para continuar...", end=" ")
         input()
+        return
     
     def exibirMensagemCommit(self, adds: int, alts: int, excls: int):
         os.system("clear")
@@ -924,6 +932,7 @@ class Menu(InterfaceAbstract):
         print(f"{excls} registros excluídos com sucesso!")
         print("\nPressione Enter para continuar...", end=" ")
         input()
+        return
     
     def exibirMensagemRollback(self, adds: int, alts: int, excls: int):
         os.system("clear")
@@ -932,3 +941,8 @@ class Menu(InterfaceAbstract):
         print(f"{excls} registros excluídos  revertidos com sucesso!")
         print("\nPressione Enter para continuar...", end=" ")
         input()
+        return
+    
+    def encerrarInterface(self):
+        os.system("clear")
+        return

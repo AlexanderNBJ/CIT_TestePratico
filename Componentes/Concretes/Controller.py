@@ -49,12 +49,13 @@ class Controller(ControllerAbstract):
                 self.conector.executarQueryDeCommit()
                 self.conector.encerrarConexao()
                 self.emExecucao = False
+                self.interface.encerrarInterface()
                 return
             else:
-                self.interface.exibirErroDeOpcaoInvalida(e)
+                self.interface.exibirErroDeOpcaoInvalida()
                 return
         except Exception as e:
-            self.interface.exibirErroDeOpcaoInvalida(e)
+            self.interface.exibirErroDeOpcaoInvalida()
         return
         
     def avaliaOpcaoCadastro(self, opcao):
@@ -73,9 +74,9 @@ class Controller(ControllerAbstract):
             elif(opcao == 0):
                 return
             else:
-                self.interface.exibirErroDeOpcaoInvalida(e)
+                self.interface.exibirErroDeOpcaoInvalida()
         except Exception as e:
-            self.interface.exibirErroDeOpcaoInvalida(e)
+            self.interface.exibirErroDeOpcaoInvalida()
             
         return
     
@@ -98,21 +99,20 @@ class Controller(ControllerAbstract):
             self.interface.exibirSucessoInsercao(result)
             self.registrosAdd+=result
         except Exception as e:
-            self.interface.exibirErroDeInsercao(e)
-            print(e)
+            self.interface.exibirErroDeInsercao()
     
     def inserePesquisador(self, arrayValores):
         arrayColunas = ["NOME_COMPLETO", "TELEFONE", "EMAIL", "ESPECIALIDADE"]
         
         for atributo in arrayValores:
             if atributo == "":
-                atributo = "NULL"
+                atributo = "NULL" 
         try:
             result = self.conector.executarQueryDeInsercao(arrayValores, arrayColunas, "PESQUISADOR")
             self.interface.exibirSucessoInsercao(result)
             self.registrosAdd+=result
         except Exception as e:
-            self.interface.exibirErroDeInsercao(e)
+            self.interface.exibirErroDeInsercao()
     
     def insereTipoDePonto(self, arrayValores):
         arrayColunas = ["DESCRICAO"]
@@ -125,7 +125,7 @@ class Controller(ControllerAbstract):
             self.interface.exibirSucessoInsercao(result)
             self.registrosAdd+=result
         except Exception as e:
-            self.interface.exibirErroDeInsercao(e)
+            self.interface.exibirErroDeInsercao()
     
     def avaliaOpcaoListar(self, opcao):
         try:
@@ -169,10 +169,10 @@ class Controller(ControllerAbstract):
             elif(opcao == 0):
                 return
             else:
-                self.interface.exibirErroDeOpcaoInvalida(e)
+                self.interface.exibirErroDeOpcaoInvalida()
                 return
         except Exception as e:
-            self.interface.exibirErroDeOpcaoInvalida(e)
+            self.interface.exibirErroDeOpcaoInvalida()
             
         return
 
@@ -186,7 +186,7 @@ class Controller(ControllerAbstract):
             resultado = self.conector.executarQueryDeSelecao(['*'],'PONTO_DE_ESCAVACAO', condicao)
             return resultado
         except Exception as e:
-            self.interface.exibirErroDeListagem(e)
+            self.interface.exibirErroDeListagem()
             return None
     
     def buscaPesquisador(self,arrayFiltro, arrayOrdem):
@@ -199,7 +199,7 @@ class Controller(ControllerAbstract):
             resultado = self.conector.executarQueryDeSelecao(['*'],'PESQUISADOR', condicao)
             return resultado
         except Exception as e:
-            self.interface.exibirErroDeListagem(e)
+            self.interface.exibirErroDeListagem()
             return None
     
     def buscaTipoDePonto(self,arrayFiltro, arrayOrdem):
@@ -212,7 +212,7 @@ class Controller(ControllerAbstract):
             resultado = self.conector.executarQueryDeSelecao(['*'],'TIPO_DE_PONTO', condicao)
             return resultado
         except Exception as e:
-            self.interface.exibirErroDeListagem(e)
+            self.interface.exibirErroDeListagem()
             return None
         
     def buscaPontoTipoPonto(self, arrayFiltro, arrayOrdem):
@@ -243,7 +243,7 @@ class Controller(ControllerAbstract):
             resultado = self.conector.executarQueryDeSelecao(colunas, tabela, condicao)
             return resultado
         except Exception as e:
-            self.interface.exibirErroDeListagem(e)
+            self.interface.exibirErroDeListagem()
             return None
 
     def buscaPontoPesquisador(self, arrayFiltro, arrayOrdem):
@@ -276,7 +276,7 @@ class Controller(ControllerAbstract):
             resultado = self.conector.executarQueryDeSelecao(colunas, tabela, condicao)
             return resultado
         except Exception as e:
-            self.interface.exibirErroDeListagem(e)
+            self.interface.exibirErroDeListagem()
             return None
 
     def buscaPontoTipoPontoPesquisador(self, arrayFiltro, arrayOrdem):
@@ -312,7 +312,7 @@ class Controller(ControllerAbstract):
             resultado = self.conector.executarQueryDeSelecao(colunas, tabela, condicao)
             return resultado
         except Exception as e:
-            self.interface.exibirErroDeListagem(e)
+            self.interface.exibirErroDeListagem()
             return None
 
     def avaliaOpcaoAtualizar(self, opcao):
@@ -331,9 +331,9 @@ class Controller(ControllerAbstract):
             elif(opcao == 0):
                 return
             else:
-                self.interface.exibirErroDeOpcaoInvalida(e)
+                self.interface.exibirErroDeOpcaoInvalida()
         except Exception as e:
-            self.interface.exibirErroDeOpcaoInvalida(e)
+            self.interface.exibirErroDeOpcaoInvalida()
             
         return
     
@@ -346,7 +346,7 @@ class Controller(ControllerAbstract):
             self.interface.exibirSucessoAtualizacao(result)
             self.registrosAlt+=result
         except Exception as e:
-            self.interface.exibirErroDeAlteracao(e)
+            self.interface.exibirErroDeAlteracao()
     
     def atualizaPesquisador(self, id, array: dict[str, str]):
         for chave, valor in array.items():
@@ -357,7 +357,7 @@ class Controller(ControllerAbstract):
             self.interface.exibirSucessoAtualizacao(result)
             self.registrosAlt+=result
         except Exception as e:
-            self.interface.exibirErroDeAlteracao(e)
+            self.interface.exibirErroDeAlteracao()
         return
     
     def atualizaTipoDePonto(self, id, array: dict[str, str]):
@@ -369,7 +369,7 @@ class Controller(ControllerAbstract):
             self.interface.exibirSucessoAtualizacao(result)
             self.registrosAlt+=result
         except Exception as e:
-            self.interface.exibirErroDeAlteracao(e)
+            self.interface.exibirErroDeAlteracao()
         return
 
     def avaliaOpcaoRemover(self, opcao):
@@ -388,9 +388,9 @@ class Controller(ControllerAbstract):
             elif(opcao == 0):
                 return
             else:
-                self.interface.exibirErroDeOpcaoInvalida(e)
+                self.interface.exibirErroDeOpcaoInvalida()
         except Exception as e:
-            self.interface.exibirErroDeOpcaoInvalida(e)
+            self.interface.exibirErroDeOpcaoInvalida()
             
         return
     
@@ -400,7 +400,7 @@ class Controller(ControllerAbstract):
             self.interface.exibirSucessoExclusao(result)
             self.registrosExcl+=result
         except Exception as e:
-            self.interface.exibirErroDeExclusao(e)
+            self.interface.exibirErroDeExclusao()
         return
     
     def removerPesquisador(self, id):
@@ -409,7 +409,7 @@ class Controller(ControllerAbstract):
             self.interface.exibirSucessoExclusao(result)
             self.registrosExcl+=result
         except Exception as e:
-            self.interface.exibirErroDeExclusao(e)
+            self.interface.exibirErroDeExclusao()
         return
     
     def removerTipoDePonto(self, id):
@@ -418,6 +418,6 @@ class Controller(ControllerAbstract):
             self.interface.exibirSucessoExclusao(result)
             self.registrosExcl+=result
         except Exception as e:
-            self.interface.exibirErroDeExclusao(e)
+            self.interface.exibirErroDeExclusao()
         return
     
